@@ -12,40 +12,40 @@ datasource db {
 }
 
 model User {
-  id            Int       @id @default(autoincrement())
-  email         String    @unique
-  name          String?
-  emailVerified Boolean   @default(false)  // Added default value
+  id            String    @id
+  name          String
+  email         String
+  emailVerified Boolean
   image         String?
-  createdAt     DateTime  @default(now())  // Added default
-  updatedAt     DateTime  @updatedAt       // Added updatedAt attribute
+  createdAt     DateTime
+  updatedAt     DateTime
   sessions      Session[]
   accounts      Account[]
 
+  @@unique([email])
   @@map("user")
 }
 
 model Session {
-  id        String   @id @default(cuid())  // Added default
+  id        String   @id
   expiresAt DateTime
   token     String
-  createdAt DateTime @default(now())
-  updatedAt DateTime @updatedAt
+  createdAt DateTime
+  updatedAt DateTime
   ipAddress String?
   userAgent String?
-  userId    Int      // Changed to Int to match User.id
+  userId    String
   user      User     @relation(fields: [userId], references: [id], onDelete: Cascade)
 
   @@unique([token])
-  @@index([userId])   // Added index for foreign key
   @@map("session")
 }
 
 model Account {
-  id                    String    @id @default(cuid())
+  id                    String    @id
   accountId             String
   providerId            String
-  userId                Int       // Changed to Int to match User.id
+  userId                String
   user                  User      @relation(fields: [userId], references: [id], onDelete: Cascade)
   accessToken           String?
   refreshToken          String?
@@ -54,11 +54,9 @@ model Account {
   refreshTokenExpiresAt DateTime?
   scope                 String?
   password              String?
-  createdAt             DateTime  @default(now())
-  updatedAt             DateTime  @updatedAt
+  createdAt             DateTime
+  updatedAt             DateTime
 
-  @@index([userId])    // Added index for foreign key
-  @@unique([providerId, accountId])  // Added unique constraint
   @@map("account")
 }
 

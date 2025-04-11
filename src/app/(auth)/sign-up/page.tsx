@@ -17,6 +17,7 @@ import { Loader2, X } from "lucide-react";
 import { signUp } from "@/lib/auth-client";
 import { toast } from "sonner";
 import { useRouter } from "next/navigation";
+import Link from "next/link";
 
 export default function page() {
 	const [firstName, setFirstName] = useState("");
@@ -183,9 +184,7 @@ export default function page() {
 			</CardContent>
 			<CardFooter>
 				<div className="flex justify-center w-full border-t py-4">
-					<p className="text-center text-xs text-neutral-500">
-						Secured by <span className="text-orange-400">better-auth.</span>
-					</p>
+					<Link href="/sign-in">Already have an account?</Link>
 				</div>
 			</CardFooter>
 		</Card>
